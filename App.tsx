@@ -662,16 +662,6 @@ const App: React.FC = () => {
   );
 
   const renderFinal = () => {
-    // Construct Readable Profile for display
-    const readableProfile = {
-       "Имя": answers.nickname,
-       "Роль": getLabel('role', answers.role as string),
-       "Цели": answers.goals.map(g => getLabel('goals', g)),
-       "Контент": answers.preferredContent.map(c => getLabel('content', c)),
-       "Инструменты": answers.tools.map(t => getLabel('tools', t)),
-       "Курсы": answers.courses.map(c => getLabel('courses', c)),
-    };
-
     return (
     <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6 text-center">
       <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
@@ -688,16 +678,6 @@ const App: React.FC = () => {
             <Loader2 className="animate-spin" size={16}/> Сохраняем ответы...
          </div>
       )}
-
-      <div className="bg-white/40 rounded-2xl p-4 border border-white/60 text-left overflow-hidden relative group">
-        <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2 font-bold flex items-center justify-between">
-            Твой цифровой профиль:
-            <span className="text-emerald-500/60 text-[9px] lowercase">json preview</span>
-        </p>
-        <pre className="text-xs text-slate-600 font-mono whitespace-pre-wrap max-h-40 overflow-auto custom-scrollbar">
-          {JSON.stringify(readableProfile, null, 2)}
-        </pre>
-      </div>
 
       <div className="space-y-3">
          {/* SEND TO BOT BUTTON */}
