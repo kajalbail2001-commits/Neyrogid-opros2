@@ -252,18 +252,26 @@ const App: React.FC = () => {
 
   // Send Data to Telegram Bot (Close App)
   const sendDataToBot = () => {
-    if (window.Telegram?.WebApp?.sendData) {
-        // Prepare readable text for the bot too
-        const readableData = {
-           ...answers,
-           role: getLabel('role', answers.role as string),
-           courses: answers.courses.map(c => getLabel('courses', c)),
-           // ... others can be mapped similarly if needed for the bot text
-        };
-        const dataToSend = JSON.stringify(readableData);
-        window.Telegram.WebApp.sendData(dataToSend);
+    if (window.Telegram?.WebApp) {
+        // Попытка отправить данные (сработает только для Keyboard Button)
+        try {
+            const readableData = {
+                ...answers,
+                role: getLabel('role', answers.role as string),
+                courses: answers.courses.map(c => getLabel('courses', c)),
+             };
+             const dataToSend = JSON.stringify(readableData);
+             window.Telegram.WebApp.sendData(dataToSend);
+        } catch (e) {
+            console.log("sendData ignored (Menu Button mode)");
+        }
+
+        // В любом случае закрываем приложение (сработает для Menu Button)
+        setTimeout(() => {
+            window.Telegram.WebApp.close();
+        }, 100);
     } else {
-        alert("В Telegram это действие закроет приложение и отправит данные боту.");
+        alert("В Telegram это действие закроет приложение. (Данные уже отправлены в Google Таблицу)");
     }
   };
 
@@ -680,13 +688,13 @@ const App: React.FC = () => {
       )}
 
       <div className="space-y-3">
-         {/* SEND TO BOT BUTTON */}
+         {/* CLOSE / RETURN TO CHAT BUTTON */}
          <button 
           onClick={sendDataToBot}
-          className="w-full py-4 bg-emerald-500 text-white rounded-2xl font-bold shadow-xl shadow-emerald-300/60 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 animate-pulse"
+          className="w-full py-4 bg-emerald-500 text-white rounded-2xl font-bold shadow-xl shadow-emerald-300/60 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
         >
           <MessageCircle size={22} className="fill-white/20" />
-          Отправить ответы в чат
+          Вернуться в чат
         </button>
 
         <button 
