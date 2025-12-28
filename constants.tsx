@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { 
   Briefcase, 
   Wrench, 
@@ -17,8 +16,7 @@ import {
   Video,
   ClipboardList,
   MessageSquare,
-  Image,
-  GraduationCap
+  Image
 } from 'lucide-react';
 
 export const OPTIONS = {
